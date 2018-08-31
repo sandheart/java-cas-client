@@ -50,10 +50,10 @@ public final class CasFilterTests {
         request.setContextPath("/cas");
         request.setRequestURI("/cas/test");
 
-        assertTrue(testCasFilter.constructServiceUrl(request, response).startsWith("http://www.cnn.com/cas/test"));
+        assertTrue(testCasFilter.constructServiceUrl(request, response).startsWith(request.getRequestURL().toString()));
 
         testCasFilter.setServerName(serverNameWithSlash);
-        assertTrue(testCasFilter.constructServiceUrl(request, response).startsWith("http://www.cnn.com/cas/test"));
+        assertTrue(testCasFilter.constructServiceUrl(request, response).startsWith(request.getRequestURL().toString()));
     }
 
     private static class TestCasFilter extends AbstractCasFilter {

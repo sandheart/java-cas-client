@@ -18,17 +18,17 @@
  */
 package org.jasig.cas.client.util;
 
-import org.jasig.cas.client.Protocol;
-import org.jasig.cas.client.configuration.ConfigurationKeys;
-
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jasig.cas.client.Protocol;
+import org.jasig.cas.client.configuration.ConfigurationKeys;
+
 /**
- *  Abstract filter that contains code that is common to all CAS filters.
- *  <p>
+ * Abstract filter that contains code that is common to all CAS filters.
+ * <p>
  * The following filter options can be configured (either at the context-level or filter-level).
  * <ul>
  * <li><code>serverName</code> - the name of the CAS client server, in the format: localhost:8080 or localhost:8443 or localhost or https://localhost:8443</li>
@@ -41,21 +41,28 @@ import javax.servlet.http.HttpServletResponse;
  * @since 3.1
  */
 public abstract class AbstractCasFilter extends AbstractConfigurationFilter {
-    
-    /** Represents the constant for where the assertion will be located in memory. */
+
+    /**
+     * Represents the constant for where the assertion will be located in memory.
+     */
     public static final String CONST_CAS_ASSERTION = "_const_cas_assertion_";
 
     private Protocol protocol;
 
-    /** Sets where response.encodeUrl should be called on service urls when constructed. */
+    /**
+     * Sets where response.encodeUrl should be called on service urls when constructed.
+     */
     private boolean encodeServiceUrl = true;
 
     /**
      * The name of the server.  Should be in the following format: {protocol}:{hostName}:{port}.
-     * Standard ports can be excluded. */
+     * Standard ports can be excluded.
+     */
     private String serverName;
 
-    /** The exact url of the service. */
+    /**
+     * The exact url of the service.
+     */
     private String service;
 
     protected AbstractCasFilter(final Protocol protocol) {
@@ -68,17 +75,18 @@ public abstract class AbstractCasFilter extends AbstractConfigurationFilter {
             setServerName(getString(ConfigurationKeys.SERVER_NAME));
             setService(getString(ConfigurationKeys.SERVICE));
             setEncodeServiceUrl(getBoolean(ConfigurationKeys.ENCODE_SERVICE_URL));
-            
+
             initInternal(filterConfig);
         }
         init();
     }
 
 
-    /** Controls the ordering of filter initialization and checking by defining a method that runs before the init.
+    /**
+     * Controls the ordering of filter initialization and checking by defining a method that runs before the init.
+     *
      * @param filterConfig the original filter configuration.
      * @throws ServletException if there is a problem.
-     *
      */
     protected void initInternal(final FilterConfig filterConfig) throws ServletException {
         // template method
@@ -101,7 +109,11 @@ public abstract class AbstractCasFilter extends AbstractConfigurationFilter {
     }
 
     protected final String constructServiceUrl(final HttpServletRequest request, final HttpServletResponse response) {
-        return CommonUtils.constructServiceUrl(request, response, this.service, this.serverName,
+        String sn = CommonUtils.getReqHost(request);
+        if (sn == null) {
+            sn = this.serverName;
+        }
+        return CommonUtils.constructServiceUrl(request, response, this.service,sn,
                 this.protocol.getServiceParameterName(),
                 this.protocol.getArtifactParameterName(), this.encodeServiceUrl);
     }

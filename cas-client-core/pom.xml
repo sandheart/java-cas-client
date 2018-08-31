@@ -9,6 +9,7 @@
     <artifactId>cas-client-core</artifactId>
     <packaging>jar</packaging>
     <name>Jasig CAS Client for Java - Core</name>
+    <version>3.4.1-2018.08.31.1445</version>
 
     <build>
         <plugins>

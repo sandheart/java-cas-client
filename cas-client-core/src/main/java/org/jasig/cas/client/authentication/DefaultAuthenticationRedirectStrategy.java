@@ -22,6 +22,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jasig.cas.client.util.CommonUtils;
+
 /**
  * Implementation of the {@link AuthenticationRedirectStrategy} class that preserves the original behavior that existed prior to 3.3.0.
  *
@@ -31,7 +33,9 @@ import javax.servlet.http.HttpServletResponse;
 public final class DefaultAuthenticationRedirectStrategy implements AuthenticationRedirectStrategy {
 
     public void redirect(final HttpServletRequest request, final HttpServletResponse response,
-            final String potentialRedirectUrl) throws IOException {
+                         final String potentialRedirectUrl) throws IOException {
+        //String realUrl = CommonUtils.handRedirUrl(request, potentialRedirectUrl);
+        //response.sendRedirect(realUrl);
         response.sendRedirect(potentialRedirectUrl);
     }
 }

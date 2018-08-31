@@ -47,6 +47,8 @@ public final class FacesCompatibleAuthenticationRedirectStrategy implements Auth
             writer.write(String.format("<partial-response><redirect url=\"%s\"></redirect></partial-response>",
                     potentialRedirectUrl));
         } else {
+            //String realUrl = CommonUtils.handRedirUrl(request, potentialRedirectUrl);
+            //response.sendRedirect(realUrl);
             response.sendRedirect(potentialRedirectUrl);
         }
     }

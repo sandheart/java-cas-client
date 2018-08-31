@@ -91,7 +91,7 @@ public final class AuthenticationFilterTests {
         final MockHttpServletResponse response = new MockHttpServletResponse();
         request.setQueryString("test=12456");
         request.setRequestURI("/test");
-        request.setSecure(true);
+        //request.setSecure(true);
         final FilterChain filterChain = new FilterChain() {
 
             public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
@@ -113,7 +113,7 @@ public final class AuthenticationFilterTests {
                 CAS_LOGIN_URL
                         + "?service="
                         + URLEncoder.encode(
-                                "https://localhost:8443" + request.getRequestURI() + "?" + request.getQueryString(),
+                                request.getRequestURL() + "?" + request.getQueryString(),
                                 "UTF-8"), response.getRedirectedUrl());
     }
 
